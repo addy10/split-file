@@ -1,0 +1,15 @@
+echo -n "Enter the name of the file [ENTER]: "
+read file_name
+rm -rf output
+mkdir output
+cd output
+split ../"$file_name" -b 500K --verbose part- 
+ls -l
+cd ../
+read sha256sum file < <(sha256sum  "$file_name" | awk '{print $1, $2}')
+echo $shm_id
+echo $file_name
+cat >./report.json << EOF
+{"file":"$file","sha256sum":"$sha256sum"}
+EOF
+
